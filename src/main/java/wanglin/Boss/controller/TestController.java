@@ -9,11 +9,11 @@ public class TestController{
 
     @GetMapping("/hello")
     public String hello(){
-        return "hello";
+        return "hell1o";
     }
 
     @PostMapping("/hello/post")
-    public <name> String helloPost(String name){
+    public String helloPost(String name){
        return  "hello," + name;
     }
 }
