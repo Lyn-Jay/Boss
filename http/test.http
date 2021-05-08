@@ -9,4 +9,4 @@ Content-Type: application/x-www-form-urlencoded
 name=wanglin
 
 ###
-GET http://localhost:8080/test/list
+GET http://localhost:8080/demo/list
