@@ -6,7 +6,7 @@
 #      primary key (`id`)
 # )engine=innodb default charset=utf8mb4 comment='测试'
 
-select * from test;
+select * from ebook;
 
 # drop table if exists `demo`;
 # create table `demo`(

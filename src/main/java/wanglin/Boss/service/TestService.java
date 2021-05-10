@@ -14,6 +14,7 @@ public class TestService {
 
     public List<Test> list(){
         return testMapper.list();
+
     }
 
 }
