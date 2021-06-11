@@ -1,6 +1,6 @@
-package wanglin.Boss.resp;
+package wanglin.Boss.req;
 
-public class EbookResp {
+public class EbookSaveReq {
     private Long id;
 
     private String name;

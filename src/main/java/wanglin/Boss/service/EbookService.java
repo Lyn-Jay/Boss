@@ -1,12 +1,16 @@
 package wanglin.Boss.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import wanglin.Boss.domain.Ebook;
 import wanglin.Boss.domain.EbookExample;
 import wanglin.Boss.mapper.EbookMapper;
-import wanglin.Boss.req.EbookReq;
-import wanglin.Boss.resp.EbookResp;
+import wanglin.Boss.req.EbookQueryReq;
+import wanglin.Boss.req.EbookSaveReq;
+import wanglin.Boss.resp.EbookQueryResp;
+import wanglin.Boss.resp.PageResp;
 import wanglin.Boss.util.CopyUtil;
 
 import javax.annotation.Resource;
@@ -17,7 +21,8 @@ public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
 
-    public List<EbookResp> list(EbookReq req){
+    public PageResp<EbookQueryResp> list(EbookQueryReq req){
+
         EbookExample ebookExample = new EbookExample();
         EbookExample.Criteria criteria = ebookExample.createCriteria();
 
@@ -25,15 +30,30 @@ public class EbookService {
             criteria.andNameLike("%" + req.getName() + "%");
         }
 
-
-
         List<Ebook> ebookList = ebookMapper.selectByExample(ebookExample);
 
+        PageInfo<Ebook> pageInfo =  new PageInfo<>(ebookList);
 
         //列表复制
-        List<EbookResp> list = CopyUtil.copyList(ebookList, EbookResp.class);
+        List<EbookQueryResp> list = CopyUtil.copyList(ebookList, EbookQueryResp.class);
 
-        return list;
+        PageResp<EbookQueryResp> pageResp = new PageResp();
+        PageHelper.startPage(req.getPage(), req.getSize());
+        pageResp.setTotal(pageInfo.getTotal());
+        pageResp.setList(list);
+        return pageResp;
+    }
+
+    //保存
+    public void save(EbookSaveReq req){
+        Ebook ebook = CopyUtil.copy(req,Ebook.class);
+        if(ObjectUtils.isEmpty(req.getId())){
+            //新增
+            ebookMapper.insert(ebook);
+        }else{
+            //更新
+            ebookMapper.updateByPrimaryKey(ebook);
+        }
 
     }
 
