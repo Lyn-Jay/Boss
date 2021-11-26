@@ -156,14 +156,16 @@
         modalLoading.value = true;
 
         axios.post("/ebook/save",ebook.value).then(function (response){
+          modalLoading.value = false;
           const data = response.data;
           if(data.success){
             modalVisible.value = false;
-            modalLoading.value = false;
             handleQuery({
               page : pagination.value.current,
               size : pagination.value.pageSize
             });
+          }else {
+            message.error(data.message);
           }
         });
       };
