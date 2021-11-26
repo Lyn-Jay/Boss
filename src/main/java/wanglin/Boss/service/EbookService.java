@@ -12,6 +12,7 @@ import wanglin.Boss.req.EbookSaveReq;
 import wanglin.Boss.resp.EbookQueryResp;
 import wanglin.Boss.resp.PageResp;
 import wanglin.Boss.util.CopyUtil;
+import wanglin.Boss.util.SnowFlake;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -20,6 +21,9 @@ import java.util.List;
 public class EbookService {
     @Resource
     private EbookMapper ebookMapper;
+
+    @Resource
+    private SnowFlake SnowFlake;
 
     public PageResp<EbookQueryResp> list(EbookQueryReq req){
 
@@ -49,6 +53,7 @@ public class EbookService {
         Ebook ebook = CopyUtil.copy(req,Ebook.class);
         if(ObjectUtils.isEmpty(req.getId())){
             //新增
+            ebook.setId(SnowFlake.nextId());
             ebookMapper.insert(ebook);
         }else{
             //更新

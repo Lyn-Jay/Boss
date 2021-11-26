@@ -1,6 +1,9 @@
 <template>
   <a-layout>
     <a-layout-content :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }">
+      <p>
+        <a-button type="primary" @click="add()" size="large">新增</a-button>
+      </p>
       <a-table
           :columns="columns"
           :row-key="record => record.id"
@@ -163,6 +166,11 @@
         ebook.value = JSON.parse(JSON.stringify(record));
       };
 
+      const add = (record: any) => {
+        modalVisible.value = true;
+        ebook.value = {};
+      };
+
 
       onMounted(() => {
         handleQuery({
@@ -176,7 +184,10 @@
         loading,
         handleTableChange,
         columns,
+
         edit,
+        add,
+
         ebook,
         modalVisible,
         modalLoading,
